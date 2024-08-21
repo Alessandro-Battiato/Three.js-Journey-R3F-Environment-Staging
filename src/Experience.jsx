@@ -10,6 +10,7 @@ import {
     Sky,
     Environment,
     Lightformer,
+    Stage,
 } from "@react-three/drei";
 import { useRef, useEffect } from "react";
 import { Perf } from "r3f-perf";
@@ -45,14 +46,15 @@ export default function Experience() {
             envMapScale: { value: 100, min: 10, max: 1000 },
         });
 
-    const scene = useThree((state) => state.scene);
-    useEffect(() => {
-        scene.environmentIntensity = envMapIntensity;
-    }, [envMapIntensity]);
+    // const scene = useThree(state => state.scene)
+    // useEffect(() =>
+    // {
+    //     scene.environmentIntensity = envMapIntensity
+    // }, [ envMapIntensity ])
 
     return (
         <>
-            <Environment
+            {/*<Environment
                 // background you can't enable this when you use the ground prop
                 ground={{
                     height: envMapHeight,
@@ -62,8 +64,8 @@ export default function Experience() {
                 preset="sunset"
                 // resolution={32} // improves performances though it makes the env map look blurry
                 // files={"./environmentMaps/the_sky_is_on_fire_2k.hdr"}
-            >
-                {/*
+            >*/}
+            {/*
                     <color args={["blue"]} attach="background" />
                     <Lightformer
                         position-z={-5}
@@ -73,14 +75,14 @@ export default function Experience() {
                         form="ring"
                     />
                 */}
-                {/*Notice how adding the plane geometry inside the environment, makes the plane scale automatically and also the cube surface gets a bit more red-ish because of the red plane light*/}
-                {/* Replaced by the LightFormer
+            {/*Notice how adding the plane geometry inside the environment, makes the plane scale automatically and also the cube surface gets a bit more red-ish because of the red plane light*/}
+            {/* Replaced by the LightFormer
                     <mesh position-z={-5} scale={10}>
                         <planeGeometry />
                         <meshBasicMaterial color={[100, 0, 0]} />
                     </mesh>
                 */}
-            </Environment>
+            {/*</Environment>*/}
 
             {/*<BakeShadows />*/}
             {/*
@@ -100,7 +102,7 @@ export default function Experience() {
 
                 If you were to put the color tag inside another R3F tag then this wouldn't work because the immediate parent of the color tag wouldn't be the Scene
             */}
-            <color args={["ivory"]} attach="background" />
+            {/*<color args={["ivory"]} attach="background" />*/}
 
             <Perf position="top-left" />
 
@@ -149,7 +151,7 @@ export default function Experience() {
                 </AccumulativeShadows>
             */}
 
-            <ContactShadows
+            {/*<ContactShadows
                 position={[0, 0, 0]}
                 scale={10}
                 resolution={128}
@@ -158,7 +160,7 @@ export default function Experience() {
                 opacity={opacity}
                 blur={blur}
                 // frames={1} // baking, it won't follow the rotating object so only for static scenes
-            />
+            />*/}
 
             {/*
                 <directionalLight
@@ -179,27 +181,29 @@ export default function Experience() {
                 <Sky sunPosition={sunPosition} />
             */}
 
-            <mesh castShadow position-y={1} position-x={-2}>
-                <sphereGeometry />
-                <meshStandardMaterial
-                    color="orange"
-                    envMapIntensity={envMapIntensity}
-                />
-            </mesh>
+            {/*
+                <mesh castShadow position-y={1} position-x={-2}>
+                    <sphereGeometry />
+                    <meshStandardMaterial
+                        color="orange"
+                        envMapIntensity={envMapIntensity}
+                    />
+                </mesh>
 
-            <mesh
-                castShadow
-                ref={cube}
-                position-x={2}
-                position-y={1}
-                scale={1.5}
-            >
-                <boxGeometry />
-                <meshStandardMaterial
-                    color="mediumpurple"
-                    envMapIntensity={envMapIntensity}
-                />
-            </mesh>
+                <mesh
+                    castShadow
+                    ref={cube}
+                    position-x={2}
+                    position-y={1}
+                    scale={1.5}
+                >
+                    <boxGeometry />
+                    <meshStandardMaterial
+                        color="mediumpurple"
+                        envMapIntensity={envMapIntensity}
+                    />
+                </mesh>
+            */}
 
             {/*
                 <mesh position-y={0} rotation-x={-Math.PI * 0.5} scale={10}>
@@ -210,6 +214,35 @@ export default function Experience() {
                     />
                 </mesh>
             */}
+
+            <Stage
+                shadows={{ type: "contact", opacity: 0.2, blur: 3 }}
+                environment="sunset"
+                preset="portrait"
+                intensity={envMapIntensity}
+            >
+                <mesh castShadow position-y={1} position-x={-2}>
+                    <sphereGeometry />
+                    <meshStandardMaterial
+                        color="orange"
+                        envMapIntensity={envMapIntensity}
+                    />
+                </mesh>
+
+                <mesh
+                    castShadow
+                    ref={cube}
+                    position-x={2}
+                    position-y={1}
+                    scale={1.5}
+                >
+                    <boxGeometry />
+                    <meshStandardMaterial
+                        color="mediumpurple"
+                        envMapIntensity={envMapIntensity}
+                    />
+                </mesh>
+            </Stage>
         </>
     );
 }
