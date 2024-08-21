@@ -49,6 +49,7 @@ export default function Experience() {
         <>
             <Environment
                 background
+                // preset="sunset"
                 files={"./environmentMaps/the_sky_is_on_fire_2k.hdr"}
             />
             {/*<BakeShadows />*/}
