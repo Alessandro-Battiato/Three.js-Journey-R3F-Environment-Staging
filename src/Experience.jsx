@@ -107,6 +107,7 @@ export default function Experience() {
                 color={color}
                 opacity={opacity}
                 blur={blur}
+                // frames={1} // baking, it won't follow the rotating object so only for static scenes
             />
 
             <directionalLight
