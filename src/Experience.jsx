@@ -1,5 +1,10 @@
 import { useFrame } from "@react-three/fiber";
-import { OrbitControls, useHelper, BakeShadows } from "@react-three/drei";
+import {
+    OrbitControls,
+    useHelper,
+    BakeShadows,
+    SoftShadows,
+} from "@react-three/drei";
 import { useRef } from "react";
 import { Perf } from "r3f-perf";
 import * as THREE from "three";
@@ -16,6 +21,13 @@ export default function Experience() {
     return (
         <>
             <BakeShadows />
+            {/*
+                size: radius of the softness
+                samples: quality (more samples = less visual noise but worse performance)
+                focus: distance where the shadow is the sharpest
+            */}
+            <SoftShadows size={25} samples={10} focus={0} />
+
             {/*
                 The <color /> tag provides the same solution as using the vanilla THREE.js method of changing the background
                 color by setting scene.background = new THREE.Color('color');
