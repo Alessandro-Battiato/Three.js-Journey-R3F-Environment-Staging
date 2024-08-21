@@ -7,6 +7,7 @@ import {
     AccumulativeShadows,
     RandomizedLight,
     ContactShadows,
+    Sky,
 } from "@react-three/drei";
 import { useRef } from "react";
 import { Perf } from "r3f-perf";
@@ -28,6 +29,10 @@ export default function Experience() {
         color: "#1d8f75",
         opacity: { value: 0.5, min: 0, max: 1 },
         blur: { value: 2.8, min: 0, max: 10 },
+    });
+
+    const { sunPosition } = useControls("sky", {
+        sunPosition: { value: [1, 2, 3] },
     });
 
     return (
@@ -120,10 +125,12 @@ export default function Experience() {
                 shadow-camera-left={-5}
                 castShadow
                 ref={directionalLightRef}
-                position={[1, 2, 3]}
+                position={sunPosition} // this fixes the shadows not changing according to the sun moving
                 intensity={4.5}
             />
             <ambientLight intensity={1.5} />
+
+            <Sky sunPosition={sunPosition} />
 
             <mesh castShadow position-x={-2}>
                 <sphereGeometry />
