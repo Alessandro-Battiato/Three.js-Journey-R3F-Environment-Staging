@@ -33,6 +33,7 @@ export default function Experience() {
             <OrbitControls makeDefault />
 
             <directionalLight
+                shadow-mapSize={[1024, 1024]} // This calls the set method on the shadow.mapSize and sets the selected resolution
                 castShadow
                 ref={directionalLightRef}
                 position={[1, 2, 3]}
