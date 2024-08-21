@@ -9,6 +9,7 @@ import {
     ContactShadows,
     Sky,
     Environment,
+    Lightformer,
 } from "@react-three/drei";
 import { useRef, useEffect } from "react";
 import { Perf } from "r3f-perf";
@@ -53,11 +54,20 @@ export default function Experience() {
                 // files={"./environmentMaps/the_sky_is_on_fire_2k.hdr"}
             >
                 <color args={["blue"]} attach="background" />
+                <Lightformer
+                    position-z={-5}
+                    scale={10}
+                    color="red"
+                    intensity={10}
+                    form="ring"
+                />
                 {/*Notice how adding the plane geometry inside the environment, makes the plane scale automatically and also the cube surface gets a bit more red-ish because of the red plane light*/}
-                <mesh position-z={-5} scale={10}>
-                    <planeGeometry />
-                    <meshBasicMaterial color="red" />
-                </mesh>
+                {/* Replaced by the LightFormer
+                    <mesh position-z={-5} scale={10}>
+                        <planeGeometry />
+                        <meshBasicMaterial color={[100, 0, 0]} />
+                    </mesh>
+                */}
             </Environment>
 
             {/*<BakeShadows />*/}
