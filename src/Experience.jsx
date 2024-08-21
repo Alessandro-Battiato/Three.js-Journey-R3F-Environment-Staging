@@ -20,7 +20,7 @@ export default function Experience() {
 
     return (
         <>
-            <BakeShadows />
+            {/*<BakeShadows />*/}
             {/*
                 size: radius of the softness
                 samples: quality (more samples = less visual noise but worse performance)
