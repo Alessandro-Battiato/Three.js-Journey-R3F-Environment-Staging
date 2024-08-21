@@ -50,8 +50,9 @@ export default function Experience() {
             <Environment
                 background
                 // preset="sunset"
-                files={"./environmentMaps/the_sky_is_on_fire_2k.hdr"}
+                // files={"./environmentMaps/the_sky_is_on_fire_2k.hdr"}
             >
+                <color args={["blue"]} attach="background" />
                 {/*Notice how adding the plane geometry inside the environment, makes the plane scale automatically and also the cube surface gets a bit more red-ish because of the red plane light*/}
                 <mesh position-z={-5} scale={10}>
                     <planeGeometry />
