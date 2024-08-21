@@ -1,4 +1,4 @@
-import { useFrame } from "@react-three/fiber";
+import { useThree, useFrame } from "@react-three/fiber";
 import {
     OrbitControls,
     useHelper,
@@ -10,7 +10,7 @@ import {
     Sky,
     Environment,
 } from "@react-three/drei";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Perf } from "r3f-perf";
 import { useControls } from "leva";
 import * as THREE from "three";
@@ -35,6 +35,15 @@ export default function Experience() {
     const { sunPosition } = useControls("sky", {
         sunPosition: { value: [1, 2, 3] },
     });
+
+    const { envMapIntensity } = useControls("environment map", {
+        envMapIntensity: { value: 3.5, min: 0, max: 12 },
+    });
+
+    const scene = useThree((state) => state.scene);
+    useEffect(() => {
+        scene.environmentIntensity = envMapIntensity;
+    }, [envMapIntensity]);
 
     return (
         <>
@@ -147,17 +156,26 @@ export default function Experience() {
 
             <mesh castShadow position-x={-2}>
                 <sphereGeometry />
-                <meshStandardMaterial color="orange" />
+                <meshStandardMaterial
+                    color="orange"
+                    envMapIntensity={envMapIntensity}
+                />
             </mesh>
 
             <mesh castShadow ref={cube} position-x={2} scale={1.5}>
                 <boxGeometry />
-                <meshStandardMaterial color="mediumpurple" />
+                <meshStandardMaterial
+                    color="mediumpurple"
+                    envMapIntensity={envMapIntensity}
+                />
             </mesh>
 
             <mesh position-y={-1} rotation-x={-Math.PI * 0.5} scale={10}>
                 <planeGeometry />
-                <meshStandardMaterial color="greenyellow" />
+                <meshStandardMaterial
+                    color="greenyellow"
+                    envMapIntensity={envMapIntensity}
+                />
             </mesh>
         </>
     );
