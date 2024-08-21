@@ -28,7 +28,7 @@ export default function Experience() {
     });
 
     const { color, opacity, blur } = useControls("contact shadows", {
-        color: "#1d8f75",
+        color: "#4b2709",
         opacity: { value: 0.5, min: 0, max: 1 },
         blur: { value: 2.8, min: 0, max: 10 },
     });
@@ -37,9 +37,13 @@ export default function Experience() {
         sunPosition: { value: [1, 2, 3] },
     });
 
-    const { envMapIntensity } = useControls("environment map", {
-        envMapIntensity: { value: 3.5, min: 0, max: 12 },
-    });
+    const { envMapIntensity, envMapHeight, envMapRadius, envMapScale } =
+        useControls("environment map", {
+            envMapIntensity: { value: 3.5, min: 0, max: 12 },
+            envMapHeight: { value: 7, min: 0, max: 100 },
+            envMapRadius: { value: 20, min: 10, max: 1000 },
+            envMapScale: { value: 100, min: 10, max: 1000 },
+        });
 
     const scene = useThree((state) => state.scene);
     useEffect(() => {
@@ -49,18 +53,26 @@ export default function Experience() {
     return (
         <>
             <Environment
-                background
-                // preset="sunset"
+                // background you can't enable this when you use the ground prop
+                ground={{
+                    height: envMapHeight,
+                    radius: envMapRadius,
+                    scale: envMapScale,
+                }}
+                preset="sunset"
+                // resolution={32} // improves performances though it makes the env map look blurry
                 // files={"./environmentMaps/the_sky_is_on_fire_2k.hdr"}
             >
-                <color args={["blue"]} attach="background" />
-                <Lightformer
-                    position-z={-5}
-                    scale={10}
-                    color="red"
-                    intensity={10}
-                    form="ring"
-                />
+                {/*
+                    <color args={["blue"]} attach="background" />
+                    <Lightformer
+                        position-z={-5}
+                        scale={10}
+                        color="red"
+                        intensity={10}
+                        form="ring"
+                    />
+                */}
                 {/*Notice how adding the plane geometry inside the environment, makes the plane scale automatically and also the cube surface gets a bit more red-ish because of the red plane light*/}
                 {/* Replaced by the LightFormer
                     <mesh position-z={-5} scale={10}>
@@ -138,7 +150,7 @@ export default function Experience() {
             */}
 
             <ContactShadows
-                position={[0, -0.99, 0]}
+                position={[0, 0, 0]}
                 scale={10}
                 resolution={128}
                 far={5}
@@ -167,7 +179,7 @@ export default function Experience() {
                 <Sky sunPosition={sunPosition} />
             */}
 
-            <mesh castShadow position-x={-2}>
+            <mesh castShadow position-y={1} position-x={-2}>
                 <sphereGeometry />
                 <meshStandardMaterial
                     color="orange"
@@ -175,7 +187,13 @@ export default function Experience() {
                 />
             </mesh>
 
-            <mesh castShadow ref={cube} position-x={2} scale={1.5}>
+            <mesh
+                castShadow
+                ref={cube}
+                position-x={2}
+                position-y={1}
+                scale={1.5}
+            >
                 <boxGeometry />
                 <meshStandardMaterial
                     color="mediumpurple"
@@ -183,13 +201,15 @@ export default function Experience() {
                 />
             </mesh>
 
-            <mesh position-y={-1} rotation-x={-Math.PI * 0.5} scale={10}>
-                <planeGeometry />
-                <meshStandardMaterial
-                    color="greenyellow"
-                    envMapIntensity={envMapIntensity}
-                />
-            </mesh>
+            {/*
+                <mesh position-y={0} rotation-x={-Math.PI * 0.5} scale={10}>
+                    <planeGeometry />
+                    <meshStandardMaterial
+                        color="greenyellow"
+                        envMapIntensity={envMapIntensity}
+                    />
+                </mesh>
+            */}
         </>
     );
 }
