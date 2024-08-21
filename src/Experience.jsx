@@ -12,6 +12,18 @@ export default function Experience() {
 
     return (
         <>
+            {/*
+                The <color /> tag provides the same solution as using the vanilla THREE.js method of changing the background
+                color by setting scene.background = new THREE.Color('color');
+
+                The fact is that you're using only R3F this way which is preferred, but there is a catch, in fact, you need to use the attach property
+                because the same way you're setting the color to the property background of the scene object above, you need to tell R3F which property should it attach the color tag to
+                and you also need to consider the parenthood, which currently implicitly is the <Scene></Scene> tag and thus why setting the attach="background" works
+
+                If you were to put the color tag inside another R3F tag then this wouldn't work because the immediate parent of the color tag wouldn't be the Scene
+            */}
+            <color args={["ivory"]} attach="background" />
+
             <Perf position="top-left" />
 
             <OrbitControls makeDefault />
