@@ -6,20 +6,28 @@ import {
     SoftShadows,
     AccumulativeShadows,
     RandomizedLight,
+    ContactShadows,
 } from "@react-three/drei";
 import { useRef } from "react";
 import { Perf } from "r3f-perf";
+import { useControls } from "leva";
 import * as THREE from "three";
 
 export default function Experience() {
     const directionalLightRef = useRef(null);
-    // useHelper(directionalLightRef, THREE.DirectionalLightHelper, 1); // 1 is the size of the helper
+    useHelper(directionalLightRef, THREE.DirectionalLightHelper, 1); // 1 is the size of the helper
     const cube = useRef();
 
     useFrame((state, delta) => {
-        const time = state.clock.elapsedTime;
-        cube.current.position.x = 2 + Math.sin(time);
+        // const time = state.clock.elapsedTime;
+        // cube.current.position.x = 2 + Math.sin(time);
         cube.current.rotation.y += delta * 0.2;
+    });
+
+    const { color, opacity, blur } = useControls("contact shadows", {
+        color: "#000000",
+        opacity: { value: 0.5, min: 0, max: 1 },
+        blur: { value: 1, min: 0, max: 10 },
     });
 
     return (
@@ -70,24 +78,36 @@ export default function Experience() {
 
 
             */}
-            <AccumulativeShadows
-                opacity={0.8}
-                frames={Infinity} // shadow renders, there is a HUGE issue regarding iOs in fact the page freezes on initial renders because THREE.js has to do multiple renders but iOs will reload the page if it takes too much to load, and so everything needs to be rendered once again and a loop occurs, so iOs only tests have to be performed. When the cube moves though, with the animation we previously implemented, the value of this property needs to be changed into Infinity
-                temporal // this "spreads" the renders and fixes the iOs issue. This creats an artifact if you're still using the Helper, so remove the latter if this happens
-                blend={100} // the default value is 20 shadows accumulated
-                color="#316d39"
-                scale={10}
+            {/*
+                <AccumulativeShadows
+                    opacity={0.8}
+                    frames={Infinity} // shadow renders, there is a HUGE issue regarding iOs in fact the page freezes on initial renders because THREE.js has to do multiple renders but iOs will reload the page if it takes too much to load, and so everything needs to be rendered once again and a loop occurs, so iOs only tests have to be performed. When the cube moves though, with the animation we previously implemented, the value of this property needs to be changed into Infinity
+                    temporal // this "spreads" the renders and fixes the iOs issue. This creats an artifact if you're still using the Helper, so remove the latter if this happens
+                    blend={100} // the default value is 20 shadows accumulated
+                    color="#316d39"
+                    scale={10}
+                    position={[0, -0.99, 0]}
+                >
+                    <RandomizedLight
+                        amount={8}
+                        radius={1}
+                        ambient={0.5}
+                        intensity={3}
+                        position={[1, 2, 3]}
+                        bias={0.001}
+                    />
+                </AccumulativeShadows>
+            */}
+
+            <ContactShadows
                 position={[0, -0.99, 0]}
-            >
-                <RandomizedLight
-                    amount={8}
-                    radius={1}
-                    ambient={0.5}
-                    intensity={3}
-                    position={[1, 2, 3]}
-                    bias={0.001}
-                />
-            </AccumulativeShadows>
+                scale={10}
+                resolution={128}
+                far={5}
+                color={color}
+                opacity={opacity}
+                blur={blur}
+            />
 
             <directionalLight
                 shadow-mapSize={[1024, 1024]} // This calls the set method on the shadow.mapSize and sets the selected resolution
