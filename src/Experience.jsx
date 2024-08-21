@@ -8,6 +8,7 @@ import {
     RandomizedLight,
     ContactShadows,
     Sky,
+    Environment,
 } from "@react-three/drei";
 import { useRef } from "react";
 import { Perf } from "r3f-perf";
@@ -37,6 +38,16 @@ export default function Experience() {
 
     return (
         <>
+            <Environment
+                files={[
+                    "./environmentMaps/2/px.jpg",
+                    "./environmentMaps/2/nx.jpg",
+                    "./environmentMaps/2/py.jpg",
+                    "./environmentMaps/2/ny.jpg",
+                    "./environmentMaps/2/pz.jpg",
+                    "./environmentMaps/2/nz.jpg",
+                ]}
+            />
             {/*<BakeShadows />*/}
             {/*
                 size: radius of the softness
@@ -115,22 +126,24 @@ export default function Experience() {
                 // frames={1} // baking, it won't follow the rotating object so only for static scenes
             />
 
-            <directionalLight
-                shadow-mapSize={[1024, 1024]} // This calls the set method on the shadow.mapSize and sets the selected resolution
-                shadow-camera-near={1}
-                shadow-camera-far={10}
-                shadow-camera-top={5}
-                shadow-camera-right={5}
-                shadow-camera-bottom={-5}
-                shadow-camera-left={-5}
-                castShadow
-                ref={directionalLightRef}
-                position={sunPosition} // this fixes the shadows not changing according to the sun moving
-                intensity={4.5}
-            />
-            <ambientLight intensity={1.5} />
+            {/*
+                <directionalLight
+                    shadow-mapSize={[1024, 1024]} // This calls the set method on the shadow.mapSize and sets the selected resolution
+                    shadow-camera-near={1}
+                    shadow-camera-far={10}
+                    shadow-camera-top={5}
+                    shadow-camera-right={5}
+                    shadow-camera-bottom={-5}
+                    shadow-camera-left={-5}
+                    castShadow
+                    ref={directionalLightRef}
+                    position={sunPosition} // this fixes the shadows not changing according to the sun moving
+                    intensity={4.5}
+                />
+                <ambientLight intensity={1.5} />
 
-            <Sky sunPosition={sunPosition} />
+                <Sky sunPosition={sunPosition} />
+            */}
 
             <mesh castShadow position-x={-2}>
                 <sphereGeometry />
