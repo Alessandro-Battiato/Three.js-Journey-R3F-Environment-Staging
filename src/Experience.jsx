@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { OrbitControls, useHelper } from "@react-three/drei";
+import { OrbitControls, useHelper, BakeShadows } from "@react-three/drei";
 import { useRef } from "react";
 import { Perf } from "r3f-perf";
 import * as THREE from "three";
@@ -15,6 +15,7 @@ export default function Experience() {
 
     return (
         <>
+            <BakeShadows />
             {/*
                 The <color /> tag provides the same solution as using the vanilla THREE.js method of changing the background
                 color by setting scene.background = new THREE.Color('color');
