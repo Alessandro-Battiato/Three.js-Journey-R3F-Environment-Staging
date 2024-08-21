@@ -34,6 +34,10 @@ export default function Experience() {
 
             <directionalLight
                 shadow-mapSize={[1024, 1024]} // This calls the set method on the shadow.mapSize and sets the selected resolution
+                shadow-camera-top={5}
+                shadow-camera-right={5}
+                shadow-camera-bottom={-5}
+                shadow-camera-left={-5}
                 castShadow
                 ref={directionalLightRef}
                 position={[1, 2, 3]}
